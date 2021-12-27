@@ -12,5 +12,6 @@ namespace DataAccess.Concrete.EntityFramework
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<DepartmentAssignment> DepartmentAssignments { get; set; }
     }
 }
