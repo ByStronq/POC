@@ -9,7 +9,8 @@ namespace Entities.Concrete
         public string Name { get; set; }
         public string Surname { get; set; }
         public int DepartmentId { get; set; }
-        public virtual Department Department { get; set; }
+        public virtual ICollection<DepartmentAssingment> DepartmentAssingments { get; set; }
         public DateTime CreatedTime { get; set; } = DateTime.Now;
+        public bool IsActive { get; set; } = true;
     }
 }

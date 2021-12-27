@@ -5,6 +5,6 @@ namespace Entities.DTOs
 {
     public class EmployeeDetailDto : EmployeeDto, IDto
     {
-        public Department Department { get; set; }
+        public ICollection<DepartmentAssingment> DepartmentAssingments { get; set; }
     }
 }

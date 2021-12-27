@@ -10,5 +10,6 @@ namespace Entities.Concrete
         public virtual Department ParentDepartment { get; set; }
         public virtual ICollection<Department> SubDepartments { get; set; }
         public DateTime CreatedTime { get; set; } = DateTime.Now;
+        public bool IsActive { get; set; } = true;
     }
 }
