@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]"), ApiController]
+    [Route("api/[controller]/[action]"), ApiController]
     public class DepartmentAssignmentsController : ControllerBase
     {
         private readonly IDepartmentAssignmentService _departmentAssignmentService;
