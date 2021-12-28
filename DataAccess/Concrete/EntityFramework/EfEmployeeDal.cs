@@ -8,19 +8,23 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfEmployeeDal : EfEntityRepositoryBase<Employee, EfContext>, IEmployeeDal
     {
-        public Employee GetWithDetails(Expression<Func<Employee, bool>> filter)
+        public Employee? GetWithDetails(Expression<Func<Employee, bool>> filter)
         {
             using (EfContext context = new EfContext())
             {
-                return context.Set<Employee>().SingleOrDefault(filter);
+                return context.Set<Employee>()
+                    .Include(entity => entity.DepartmentAssingments)
+                    .SingleOrDefault(filter);
             }
         }
 
-        public async Task<Employee> GetWithDetailsAsync(Expression<Func<Employee, bool>> filter)
+        public async Task<Employee?> GetWithDetailsAsync(Expression<Func<Employee, bool>> filter)
         {
             using (EfContext context = new EfContext())
             {
-                return await context.Set<Employee>().SingleOrDefaultAsync(filter);
+                return await context.Set<Employee>()
+                    .Include(entity => entity.DepartmentAssingments)
+                    .SingleOrDefaultAsync(filter);
             }
         }
 
@@ -29,8 +33,12 @@ namespace DataAccess.Concrete.EntityFramework
             using (EfContext context = new EfContext())
             {
                 return filter == null
-                    ? context.Set<Employee>().Select(entity => entity)
-                    : context.Set<Employee>().Where(filter).Select(entity => entity);
+                    ? context.Set<Employee>()
+                        .Include(entity => entity.DepartmentAssingments)
+                        .Select(entity => entity)
+                    : context.Set<Employee>()
+                        .Include(entity => entity.DepartmentAssingments)
+                        .Where(filter).Select(entity => entity);
             }
         }
 
@@ -39,8 +47,12 @@ namespace DataAccess.Concrete.EntityFramework
             using (EfContext context = new EfContext())
             {
                 return filter == null
-                    ? await context.Set<Employee>().ToListAsync()
-                    : await context.Set<Employee>().Where(filter).ToListAsync();
+                    ? await context.Set<Employee>()
+                        .Include(entity => entity.DepartmentAssingments)
+                        .ToListAsync()
+                    : await context.Set<Employee>()
+                        .Include(entity => entity.DepartmentAssingments)
+                        .Where(filter).ToListAsync();
             }
         }
     }

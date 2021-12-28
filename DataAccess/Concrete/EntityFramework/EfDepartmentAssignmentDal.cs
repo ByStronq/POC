@@ -8,19 +8,25 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfDepartmentAssignmentDal : EfEntityRepositoryBase<DepartmentAssignment, EfContext>, IDepartmentAssignmentDal
     {
-        public DepartmentAssignment GetWithDetails(Expression<Func<DepartmentAssignment, bool>> filter)
+        public DepartmentAssignment? GetWithDetails(Expression<Func<DepartmentAssignment, bool>> filter)
         {
             using (EfContext context = new EfContext())
             {
-                return context.Set<DepartmentAssignment>().SingleOrDefault(filter);
+                return context.Set<DepartmentAssignment>()
+                    .Include(entity => entity.Employee)
+                    .Include(entity => entity.Department)
+                    .SingleOrDefault(filter);
             }
         }
 
-        public async Task<DepartmentAssignment> GetWithDetailsAsync(Expression<Func<DepartmentAssignment, bool>> filter)
+        public async Task<DepartmentAssignment?> GetWithDetailsAsync(Expression<Func<DepartmentAssignment, bool>> filter)
         {
             using (EfContext context = new EfContext())
             {
-                return await context.Set<DepartmentAssignment>().SingleOrDefaultAsync(filter);
+                return await context.Set<DepartmentAssignment>()
+                    .Include(entity => entity.Employee)
+                    .Include(entity => entity.Department)
+                    .SingleOrDefaultAsync(filter);
             }
         }
 
@@ -29,8 +35,14 @@ namespace DataAccess.Concrete.EntityFramework
             using (EfContext context = new EfContext())
             {
                 return filter == null
-                    ? context.Set<DepartmentAssignment>().Select(entity => entity)
-                    : context.Set<DepartmentAssignment>().Where(filter).Select(entity => entity);
+                    ? context.Set<DepartmentAssignment>()
+                        .Include(entity => entity.Employee)
+                        .Include(entity => entity.Department)
+                        .Select(entity => entity)
+                    : context.Set<DepartmentAssignment>()
+                        .Include(entity => entity.Employee)
+                        .Include(entity => entity.Department)
+                        .Where(filter).Select(entity => entity);
             }
         }
 
@@ -39,8 +51,14 @@ namespace DataAccess.Concrete.EntityFramework
             using (EfContext context = new EfContext())
             {
                 return filter == null
-                    ? await context.Set<DepartmentAssignment>().ToListAsync()
-                    : await context.Set<DepartmentAssignment>().Where(filter).ToListAsync();
+                    ? await context.Set<DepartmentAssignment>()
+                        .Include(entity => entity.Employee)
+                        .Include(entity => entity.Department)
+                        .ToListAsync()
+                    : await context.Set<DepartmentAssignment>()
+                        .Include(entity => entity.Employee)
+                        .Include(entity => entity.Department)
+                        .Where(filter).ToListAsync();
             }
         }
     }

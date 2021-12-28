@@ -8,19 +8,25 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfDepartmentDal : EfEntityRepositoryBase<Department, EfContext>, IDepartmentDal
     {
-        public Department GetWithDetails(Expression<Func<Department, bool>> filter)
+        public Department? GetWithDetails(Expression<Func<Department, bool>> filter)
         {
             using (EfContext context = new EfContext())
             {
-                return context.Set<Department>().SingleOrDefault(filter);
+                return context.Set<Department>()
+                    .Include(entity => entity.ParentDepartment)
+                    .Include(entity => entity.SubDepartments)
+                    .SingleOrDefault(filter);
             }
         }
         
-        public async Task<Department> GetWithDetailsAsync(Expression<Func<Department, bool>> filter)
+        public async Task<Department?> GetWithDetailsAsync(Expression<Func<Department, bool>> filter)
         {
             using (EfContext context = new EfContext())
             {
-                return await context.Set<Department>().SingleOrDefaultAsync(filter);
+                return await context.Set<Department>()
+                    .Include(entity => entity.ParentDepartment)
+                    .Include(entity => entity.SubDepartments)
+                    .SingleOrDefaultAsync(filter);
             }
         }
 
@@ -29,8 +35,14 @@ namespace DataAccess.Concrete.EntityFramework
             using (EfContext context = new EfContext())
             {
                 return filter == null
-                    ? context.Set<Department>().Select(entity => entity)
-                    : context.Set<Department>().Where(filter).Select(entity => entity);
+                    ? context.Set<Department>()
+                        .Include(entity => entity.ParentDepartment)
+                        .Include(entity => entity.SubDepartments)
+                        .Select(entity => entity)
+                    : context.Set<Department>()
+                        .Include(entity => entity.ParentDepartment)
+                        .Include(entity => entity.SubDepartments)
+                        .Where(filter).Select(entity => entity);
             }
         }
 
@@ -39,8 +51,14 @@ namespace DataAccess.Concrete.EntityFramework
             using (EfContext context = new EfContext())
             {
                 return filter == null
-                    ? await context.Set<Department>().ToListAsync()
-                    : await context.Set<Department>().Where(filter).ToListAsync();
+                    ? await context.Set<Department>()
+                        .Include(entity => entity.ParentDepartment)
+                        .Include(entity => entity.SubDepartments)
+                        .ToListAsync()
+                    : await context.Set<Department>()
+                        .Include(entity => entity.ParentDepartment)
+                        .Include(entity => entity.SubDepartments)
+                        .Where(filter).ToListAsync();
             }
         }
     }
