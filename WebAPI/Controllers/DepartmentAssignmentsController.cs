@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{departmentAssignmentId}")]
         public async Task<IActionResult> Delete(int departmentAssignmentId)
         {
             var result = await _departmentAssignmentService.DeleteAsync(departmentAssignmentId);
@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet]
+        [HttpGet("{departmentAssignmentId}")]
         public async Task<IActionResult> Get(int departmentAssignmentId)
         {
             var result = await _departmentAssignmentService.GetAsync(departmentAssignmentId);
@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet]
+        [HttpGet, Route("api/[controller]/GetWithDetails/{departmentAssignmentId}")]
         public async Task<IActionResult> GetWithDetails(int departmentAssignmentId)
         {
             var result = await _departmentAssignmentService.GetWithDetailsAsync(departmentAssignmentId);
