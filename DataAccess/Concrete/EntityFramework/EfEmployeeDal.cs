@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
@@ -14,6 +15,15 @@ namespace DataAccess.Concrete.EntityFramework
                 return context.Set<Employee>().SingleOrDefault(filter);
             }
         }
+
+        public async Task<Employee> GetWithDetailsAsync(Expression<Func<Employee, bool>> filter)
+        {
+            using (EfContext context = new EfContext())
+            {
+                return await context.Set<Employee>().SingleOrDefaultAsync(filter);
+            }
+        }
+
         public IEnumerable<Employee> GetAllWithDetails(Expression<Func<Employee, bool>> filter = null)
         {
             using (EfContext context = new EfContext())
@@ -21,6 +31,16 @@ namespace DataAccess.Concrete.EntityFramework
                 return filter == null
                     ? context.Set<Employee>().Select(entity => entity)
                     : context.Set<Employee>().Where(filter).Select(entity => entity);
+            }
+        }
+
+        public async Task<IEnumerable<Employee>> GetAllWithDetailsAsync(Expression<Func<Employee, bool>> filter = null)
+        {
+            using (EfContext context = new EfContext())
+            {
+                return filter == null
+                    ? await context.Set<Employee>().ToListAsync()
+                    : await context.Set<Employee>().Where(filter).ToListAsync();
             }
         }
     }

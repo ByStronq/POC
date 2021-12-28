@@ -18,6 +18,16 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
+        public async Task AddAsync(TEntity entity)
+        {
+            using (TContext context = new TContext())
+            {
+                var addedEntity = context.Entry(entity);
+                addedEntity.State = EntityState.Added;
+                await context.SaveChangesAsync();
+            }
+        }
+
         public void Update(TEntity entity)
         {
             using (TContext context = new TContext())
@@ -25,6 +35,16 @@ namespace Core.DataAccess.EntityFramework
                 var updatedEntity = context.Entry(entity);
                 updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
+            }
+        }
+
+        public async Task UpdateAsync(TEntity entity)
+        {
+            using (TContext context = new TContext())
+            {
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                await context.SaveChangesAsync();
             }
         }
 
@@ -38,11 +58,29 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
+        public async Task DeleteAsync(TEntity entity)
+        {
+            using (TContext context = new TContext())
+            {
+                var deletedEntity = context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+                await context.SaveChangesAsync();
+            }
+        }
+
         public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
             using (TContext context = new TContext())
             {
                 return context.Set<TEntity>().SingleOrDefault(filter);
+            }
+        }
+
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> filter)
+        {
+            using (TContext context = new TContext())
+            {
+                return await context.Set<TEntity>().SingleOrDefaultAsync(filter);
             }
         }
 
@@ -53,6 +91,16 @@ namespace Core.DataAccess.EntityFramework
                 return filter == null
                     ? context.Set<TEntity>().Select(entity => entity)
                     : context.Set<TEntity>().Where(filter).Select(entity => entity);
+            }
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null)
+        {
+            using (TContext context = new TContext())
+            {
+                return filter == null
+                    ? await context.Set<TEntity>().ToListAsync()
+                    : await context.Set<TEntity>().Where(filter).ToListAsync();
             }
         }
     }
