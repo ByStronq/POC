@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Business.Abstract;
 using Business.Concrete;
+using Core.Entities;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 
@@ -10,6 +11,8 @@ namespace Business.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<EfContext>().As<IDbContext>();
+
             builder.RegisterType<EmployeeManager>().As<IEmployeeService>().SingleInstance();
             builder.RegisterType<EfEmployeeDal>().As<IEmployeeDal>().SingleInstance();
 
