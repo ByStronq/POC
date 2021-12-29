@@ -15,6 +15,8 @@ namespace DataAccess.Concrete.EntityFramework
                 return context.Set<Department>()
                     .Include(entity => entity.ParentDepartment)
                     .Include(entity => entity.SubDepartments)
+                    .Include(department => department.Assignments)
+                        .ThenInclude(assignment => assignment.Employee)
                     .SingleOrDefault(filter);
             }
         }
@@ -26,6 +28,8 @@ namespace DataAccess.Concrete.EntityFramework
                 return await context.Set<Department>()
                     .Include(entity => entity.ParentDepartment)
                     .Include(entity => entity.SubDepartments)
+                    .Include(department => department.Assignments)
+                        .ThenInclude(assignment => assignment.Employee)
                     .SingleOrDefaultAsync(filter);
             }
         }
@@ -38,10 +42,14 @@ namespace DataAccess.Concrete.EntityFramework
                     ? context.Set<Department>()
                         .Include(entity => entity.ParentDepartment)
                         .Include(entity => entity.SubDepartments)
+                        .Include(department => department.Assignments)
+                            .ThenInclude(assignment => assignment.Employee)
                         .Select(entity => entity)
                     : context.Set<Department>()
                         .Include(entity => entity.ParentDepartment)
                         .Include(entity => entity.SubDepartments)
+                        .Include(department => department.Assignments)
+                            .ThenInclude(assignment => assignment.Employee)
                         .Where(filter).Select(entity => entity);
             }
         }
@@ -54,10 +62,14 @@ namespace DataAccess.Concrete.EntityFramework
                     ? await context.Set<Department>()
                         .Include(entity => entity.ParentDepartment)
                         .Include(entity => entity.SubDepartments)
+                        .Include(department => department.Assignments)
+                            .ThenInclude(assignment => assignment.Employee)
                         .ToListAsync()
                     : await context.Set<Department>()
                         .Include(entity => entity.ParentDepartment)
                         .Include(entity => entity.SubDepartments)
+                        .Include(department => department.Assignments)
+                            .ThenInclude(assignment => assignment.Employee)
                         .Where(filter).ToListAsync();
             }
         }

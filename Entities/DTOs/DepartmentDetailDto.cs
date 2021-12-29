@@ -7,5 +7,6 @@ namespace Entities.DTOs
     {
         public Department ParentDepartment { get; set; }
         public ICollection<Department> SubDepartments { get; set; }
+        public ICollection<DepartmentAssignment> Assignments { get; set; }
     }
 }
