@@ -3,3 +3,45 @@
 *@
 @{
 }
+
+<table id="tblEmployee" class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#Id</th>
+      <th scope="col">Sicil No</th>
+      <th scope="col">İsim</th>
+      <th scope="col">Soyisim</th>
+      <th scope="col">Oluşturma Tarihi</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.get({
+                url: "https://localhost:7236/employee/all",
+                success: function (response) {
+                    console.log(response);
+                    response.data.map(employee => {
+                        console.log(employee);
+                        $('#tblEmployee tbody').append(`
+                            <tr>
+                              <th scope="row">${employee.id}</th>
+                              <td>${employee.registrationNumber}</td>
+                              <td>${employee.name}</td>
+                              <td>${employee.surname}</td>
+                              <td>${employee.createdTime}</td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function (response) {
+
+                }
+            });
+        });    
+    </script>
+}
