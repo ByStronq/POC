@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebMVC.Controllers
 {
+    [Route("[controller]")]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeApiService _employeeApiService;
@@ -68,7 +69,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet, Route("api/[controller]/GetWithDetails/{employeeId}")]
+        [HttpGet("Details/{employeeId}")]
         public async Task<IActionResult> GetWithDetails(int employeeId)
         {
             var result = await _employeeApiService.GetWithDetailsAsync(employeeId);
@@ -81,7 +82,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IActionResult> GetAll()
         {
             var result = await _employeeApiService.GetAllAsync();
@@ -94,7 +95,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet]
+        [HttpGet("AllWithDetails")]
         public async Task<IActionResult> GetAllWithDetails()
         {
             var result = await _employeeApiService.GetAllWithDetailsAsync();

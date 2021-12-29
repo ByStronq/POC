@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebMVC.Controllers
 {
+    [Route("[controller]")]
     public class DepartmentController : Controller
     {
         private readonly IDepartmentApiService _departmentApiService;
@@ -71,7 +72,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet, Route("api/[controller]/GetDepartmentWithDetails/{departmentId}")]
+        [HttpGet("Details/{departmentId}")]
         public async Task<IActionResult> GetDepartmentWithDetails(int departmentId)
         {
             var result = await _departmentApiService.GetWithDetailsAsync(departmentId);
@@ -84,7 +85,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IActionResult> GetAllDepartments()
         {
             var result = await _departmentApiService.GetAllAsync();
@@ -97,7 +98,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet]
+        [HttpGet("AllWithDetails")]
         public async Task<IActionResult> GetAllDepartmentsWithDetails()
         {
             var result = await _departmentApiService.GetAllWithDetailsAsync();
@@ -110,7 +111,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost]
+        [HttpPost("Assignment")]
         public async Task<IActionResult> AddDepartmentAssignment(DepartmentAssignmentCreateDto departmentAssignment)
         {
             var result = await _departmentAssignmentApiService.AddAsync(departmentAssignment);
@@ -123,7 +124,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut]
+        [HttpPut("Assignment")]
         public async Task<IActionResult> UpdateDepartmentAssignment(DepartmentAssignmentUpdateDto departmentAssignment)
         {
             var result = await _departmentAssignmentApiService.UpdateAsync(departmentAssignment);
@@ -136,7 +137,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("{departmentAssignmentId}")]
+        [HttpDelete("Assignment/{departmentAssignmentId}")]
         public async Task<IActionResult> DeleteDepartmentAssignment(int departmentAssignmentId)
         {
             var result = await _departmentAssignmentApiService.DeleteAsync(departmentAssignmentId);
@@ -149,7 +150,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("{departmentAssignmentId}")]
+        [HttpGet("Assignment/{departmentAssignmentId}")]
         public async Task<IActionResult> GetDepartmentAssignment(int departmentAssignmentId)
         {
             var result = await _departmentAssignmentApiService.GetAsync(departmentAssignmentId);
@@ -162,7 +163,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet, Route("api/[controller]/GetDepartmentAssignmentWithDetails/{departmentAssignmentId}")]
+        [HttpGet("AssignmentWithDetails/{departmentAssignmentId}")]
         public async Task<IActionResult> GetDepartmentAssignmentWithDetails(int departmentAssignmentId)
         {
             var result = await _departmentAssignmentApiService.GetWithDetailsAsync(departmentAssignmentId);
@@ -175,7 +176,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet]
+        [HttpGet("AllAssignments")]
         public async Task<IActionResult> GetAllDepartmentAssignments()
         {
             var result = await _departmentAssignmentApiService.GetAllAsync();
@@ -188,7 +189,7 @@ namespace WebMVC.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet]
+        [HttpGet("AllAssignmentsWithDetails")]
         public async Task<IActionResult> GetAllDepartmentAssignmentsWithDetails()
         {
             var result = await _departmentAssignmentApiService.GetAllWithDetailsAsync();
