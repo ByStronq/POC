@@ -30,19 +30,19 @@ namespace Business.Concrete
             => await _departmentAssignmentApiConsumer.Delete(departmentAssignmentId);
 
         public async Task<IDataResult<DepartmentAssignmentDto>> GetAsync(int departmentAssignmentId)
-            => _mapper.Map<IDataResult<DepartmentAssignmentDto>>(
+            => _mapper.Map<SerializeDataResult<DepartmentAssignmentDto>>(
                     await _departmentAssignmentApiConsumer.Get(departmentAssignmentId));
 
         public async Task<IDataResult<DepartmentAssignmentDetailDto>> GetWithDetailsAsync(int departmentAssignmentId)
-            => _mapper.Map<IDataResult<DepartmentAssignmentDetailDto>>(
+            => _mapper.Map<SerializeDataResult<DepartmentAssignmentDetailDto>>(
                     await _departmentAssignmentApiConsumer.GetWithDetails(departmentAssignmentId));
 
         public async Task<IDataResult<IEnumerable<DepartmentAssignmentDto>>> GetAllAsync()
-            => _mapper.Map<IDataResult<IEnumerable<DepartmentAssignmentDto>>>(
+            => _mapper.Map<SerializeDataResult<IEnumerable<DepartmentAssignmentDto>>>(
                     await _departmentAssignmentApiConsumer.GetAll());
 
         public async Task<IDataResult<IEnumerable<DepartmentAssignmentDetailDto>>> GetAllWithDetailsAsync()
-            => _mapper.Map<IDataResult<IEnumerable<DepartmentAssignmentDetailDto>>>(
+            => _mapper.Map<SerializeDataResult<IEnumerable<DepartmentAssignmentDetailDto>>>(
                     await _departmentAssignmentApiConsumer.GetAllWithDetails());
     }
 }

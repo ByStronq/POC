@@ -10,20 +10,17 @@ namespace Core.DataAccess.ApiConsumers
     {
         public Uri BaseAddress { get; set; }
 
-        private readonly HttpClientHandler clientHandler;
-
         public HttpClientApiConsumer()
         {
             BaseAddress = new Uri($"https://localhost:7202/api/{typeof(TEntity).Name}s/");
-            clientHandler = new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
-            };
         }
 
         public async Task<IResult?> Add(TEntity entity)
         {
-            using var client = new HttpClient(clientHandler);
+            using var client = new HttpClient(new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            });
 
             client.BaseAddress = BaseAddress;
 
@@ -35,12 +32,18 @@ namespace Core.DataAccess.ApiConsumers
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
                 return await JsonSerializer.DeserializeAsync
-                    <SuccessResult>(responseStream);
+                    <SerializeResult>(responseStream, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
         }
 
         public async Task<IResult?> Update(TEntity entity)
         {
-            using var client = new HttpClient(clientHandler);
+            using var client = new HttpClient(new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            });
 
             client.BaseAddress = BaseAddress;
 
@@ -52,12 +55,18 @@ namespace Core.DataAccess.ApiConsumers
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
                 return await JsonSerializer.DeserializeAsync
-                    <SuccessResult>(responseStream);
+                    <SerializeResult>(responseStream, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
         }
 
         public async Task<IResult?> Delete(int entityId)
         {
-            using var client = new HttpClient(clientHandler);
+            using var client = new HttpClient(new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            });
 
             client.BaseAddress = BaseAddress;
 
@@ -68,12 +77,18 @@ namespace Core.DataAccess.ApiConsumers
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
                 return await JsonSerializer.DeserializeAsync
-                    <SuccessResult>(responseStream);
+                    <SerializeResult>(responseStream, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
         }
 
         public async Task<IDataResult<TEntity>?> Get(int entityId)
         {
-            using var client = new HttpClient(clientHandler);
+            using var client = new HttpClient(new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            });
 
             client.BaseAddress = BaseAddress;
 
@@ -84,12 +99,18 @@ namespace Core.DataAccess.ApiConsumers
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
                 return await JsonSerializer.DeserializeAsync
-                    <SuccessDataResult<TEntity>>(responseStream);
+                    <SerializeDataResult<TEntity>>(responseStream, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
         }
 
         public async Task<IDataResult<TEntity>?> GetWithDetails(int entityId)
         {
-            using var client = new HttpClient(clientHandler);
+            using var client = new HttpClient(new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            });
 
             client.BaseAddress = BaseAddress;
 
@@ -100,12 +121,18 @@ namespace Core.DataAccess.ApiConsumers
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
                 return await JsonSerializer.DeserializeAsync
-                    <SuccessDataResult<TEntity>>(responseStream);
+                    <SerializeDataResult<TEntity>>(responseStream, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
         }
 
         public async Task<IDataResult<IEnumerable<TEntity>>?> GetAll()
         {
-            using var client = new HttpClient(clientHandler);
+            using var client = new HttpClient(new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            });
 
             client.BaseAddress = BaseAddress;
 
@@ -116,12 +143,18 @@ namespace Core.DataAccess.ApiConsumers
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
                 return await JsonSerializer.DeserializeAsync
-                    <SuccessDataResult<IEnumerable<TEntity>>>(responseStream);
+                    <SerializeDataResult<IEnumerable<TEntity>>>(responseStream, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
         }
 
         public async Task<IDataResult<IEnumerable<TEntity>>?> GetAllWithDetails()
         {
-            using var client = new HttpClient(clientHandler);
+            using var client = new HttpClient(new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            });
 
             client.BaseAddress = BaseAddress;
                 
@@ -132,7 +165,10 @@ namespace Core.DataAccess.ApiConsumers
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
                 return await JsonSerializer.DeserializeAsync
-                    <SuccessDataResult<IEnumerable<TEntity>>>(responseStream);
+                    <SerializeDataResult<IEnumerable<TEntity>>>(responseStream, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
         }
     }
 }

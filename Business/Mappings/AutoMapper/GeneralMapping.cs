@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using Entities.DTOs;
 
@@ -22,6 +23,9 @@ namespace Business.Mappings.AutoMapper
             CreateMap<DepartmentAssignment, DepartmentAssignmentCreateDto>().ReverseMap();
             CreateMap<DepartmentAssignment, DepartmentAssignmentUpdateDto>().ReverseMap();
             CreateMap<DepartmentAssignment, DepartmentAssignmentDetailDto>().ReverseMap();
+
+            CreateMap(typeof(IResult), typeof(SerializeResult));
+            CreateMap(typeof(IDataResult<>), typeof(SerializeDataResult<>));
         }
     }
 }

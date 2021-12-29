@@ -30,19 +30,19 @@ namespace Business.Concrete
             => await _departmentApiConsumer.Delete(departmentId);
 
         public async Task<IDataResult<DepartmentDto>> GetAsync(int departmentId)
-            => _mapper.Map<IDataResult<DepartmentDto>>(
+            => _mapper.Map<SerializeDataResult<DepartmentDto>>(
                     await _departmentApiConsumer.Get(departmentId));
 
         public async Task<IDataResult<DepartmentDetailDto>> GetWithDetailsAsync(int departmentId)
-            => _mapper.Map<IDataResult<DepartmentDetailDto>>(
+            => _mapper.Map<SerializeDataResult<DepartmentDetailDto>>(
                     await _departmentApiConsumer.GetWithDetails(departmentId));
 
         public async Task<IDataResult<IEnumerable<DepartmentDto>>> GetAllAsync()
-            => _mapper.Map<IDataResult<IEnumerable<DepartmentDto>>>(
+            => _mapper.Map<SerializeDataResult<IEnumerable<DepartmentDto>>>(
                     await _departmentApiConsumer.GetAll());
 
         public async Task<IDataResult<IEnumerable<DepartmentDetailDto>>> GetAllWithDetailsAsync()
-            => _mapper.Map<IDataResult<IEnumerable<DepartmentDetailDto>>>(
+            => _mapper.Map<SerializeDataResult<IEnumerable<DepartmentDetailDto>>>(
                     await _departmentApiConsumer.GetAllWithDetails());
     }
 }
