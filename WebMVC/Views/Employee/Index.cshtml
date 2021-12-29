@@ -24,7 +24,6 @@
             $.get({
                 url: "https://localhost:7236/employee/all",
                 success: function (response) {
-                    console.log(response);
                     response.data.map(employee => {
                         $('#tblEmployee tbody').append(`
                             <tr>
