@@ -72,7 +72,7 @@ namespace Core.DataAccess.ApiConsumers
 
             var response = await client
                 .DeleteAsync(
-                    new Uri("Delete", UriKind.Relative)
+                    new Uri($"Delete/{entityId}", UriKind.Relative)
                 );
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
