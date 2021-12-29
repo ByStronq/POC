@@ -25,7 +25,7 @@ namespace WebMVC.Controllers
         {
             var result = await _departmentApiService.AddAsync(department);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -38,7 +38,7 @@ namespace WebMVC.Controllers
         {
             var result = await _departmentApiService.UpdateAsync(department);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -51,7 +51,7 @@ namespace WebMVC.Controllers
         {
             var result = await _departmentApiService.DeleteAsync(departmentId);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -116,7 +116,7 @@ namespace WebMVC.Controllers
         {
             var result = await _departmentAssignmentApiService.AddAsync(departmentAssignment);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -129,7 +129,7 @@ namespace WebMVC.Controllers
         {
             var result = await _departmentAssignmentApiService.UpdateAsync(departmentAssignment);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -142,7 +142,7 @@ namespace WebMVC.Controllers
         {
             var result = await _departmentAssignmentApiService.DeleteAsync(departmentAssignmentId);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }

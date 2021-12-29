@@ -20,42 +20,29 @@ namespace Business.Concrete
             _departmentApiConsumer = departmentApiConsumer;
         }
 
-        public async Task<IResult> AddAsync(DepartmentCreateDto department)
-        {
-            await _departmentApiConsumer.Add(_mapper.Map<Department>(department));
-            return new SuccessResult();
-        }
+        public async Task<IResult?> AddAsync(DepartmentCreateDto department)
+            => await _departmentApiConsumer.Add(_mapper.Map<Department>(department));
 
-        public async Task<IResult> UpdateAsync(DepartmentUpdateDto department)
-        {
-            await _departmentApiConsumer.Update(_mapper.Map<Department>(department));
-            return new SuccessResult();
-        }
+        public async Task<IResult?> UpdateAsync(DepartmentUpdateDto department)
+            => await _departmentApiConsumer.Update(_mapper.Map<Department>(department));
 
-        public async Task<IResult> DeleteAsync(int departmentId)
-        {
-            await _departmentApiConsumer.Delete(departmentId);
-            return new SuccessResult();
-        }
+        public async Task<IResult?> DeleteAsync(int departmentId)
+            => await _departmentApiConsumer.Delete(departmentId);
 
         public async Task<IDataResult<DepartmentDto>> GetAsync(int departmentId)
-            => new SuccessDataResult<DepartmentDto>(
-                _mapper.Map<DepartmentDto>(
-                    await _departmentApiConsumer.Get(departmentId)));
+            => _mapper.Map<IDataResult<DepartmentDto>>(
+                    await _departmentApiConsumer.Get(departmentId));
 
         public async Task<IDataResult<DepartmentDetailDto>> GetWithDetailsAsync(int departmentId)
-            => new SuccessDataResult<DepartmentDetailDto>(
-                _mapper.Map<DepartmentDetailDto>(
-                    await _departmentApiConsumer.GetWithDetails(departmentId)));
+            => _mapper.Map<IDataResult<DepartmentDetailDto>>(
+                    await _departmentApiConsumer.GetWithDetails(departmentId));
 
         public async Task<IDataResult<IEnumerable<DepartmentDto>>> GetAllAsync()
-            => new SuccessDataResult<IEnumerable<DepartmentDto>>(
-                _mapper.Map<IEnumerable<DepartmentDto>>(
-                    await _departmentApiConsumer.GetAll()));
+            => _mapper.Map<IDataResult<IEnumerable<DepartmentDto>>>(
+                    await _departmentApiConsumer.GetAll());
 
         public async Task<IDataResult<IEnumerable<DepartmentDetailDto>>> GetAllWithDetailsAsync()
-            => new SuccessDataResult<IEnumerable<DepartmentDetailDto>>(
-                _mapper.Map<IEnumerable<DepartmentDetailDto>>(
-                    await _departmentApiConsumer.GetAllWithDetails()));
+            => _mapper.Map<IDataResult<IEnumerable<DepartmentDetailDto>>>(
+                    await _departmentApiConsumer.GetAllWithDetails());
     }
 }

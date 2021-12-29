@@ -16,9 +16,9 @@ namespace Business.Abstract
 
     public interface IEmployeeApiService
     {
-        Task<IResult> AddAsync(EmployeeCreateDto employee);
-        Task<IResult> UpdateAsync(EmployeeUpdateDto employee);
-        Task<IResult> DeleteAsync(int employeeId);
+        Task<IResult?> AddAsync(EmployeeCreateDto employee);
+        Task<IResult?> UpdateAsync(EmployeeUpdateDto employee);
+        Task<IResult?> DeleteAsync(int employeeId);
         Task<IDataResult<EmployeeDto>> GetAsync(int employeeId);
         Task<IDataResult<EmployeeDetailDto>> GetWithDetailsAsync(int employeeId);
         Task<IDataResult<IEnumerable<EmployeeDto>>> GetAllAsync();

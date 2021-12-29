@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
         {
             var result = await _employeeService.AddAsync(employee);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         {
             var result = await _employeeService.UpdateAsync(employee);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
         {
             var result = await _employeeService.DeleteAsync(employeeId);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }

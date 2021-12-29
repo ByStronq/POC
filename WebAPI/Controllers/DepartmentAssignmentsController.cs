@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
         {
             var result = await _departmentAssignmentService.AddAsync(departmentAssignment);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
         {
             var result = await _departmentAssignmentService.UpdateAsync(departmentAssignment);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
         {
             var result = await _departmentAssignmentService.DeleteAsync(departmentAssignmentId);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }

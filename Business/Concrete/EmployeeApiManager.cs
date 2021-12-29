@@ -20,42 +20,29 @@ namespace Business.Concrete
             _employeeApiConsumer = employeeApiConsumer;
         }
 
-        public async Task<IResult> AddAsync(EmployeeCreateDto employee)
-        {
-            await _employeeApiConsumer.Add(_mapper.Map<Employee>(employee));
-            return new SuccessResult();
-        }
+        public async Task<IResult?> AddAsync(EmployeeCreateDto employee)
+            => await _employeeApiConsumer.Add(_mapper.Map<Employee>(employee));
 
-        public async Task<IResult> UpdateAsync(EmployeeUpdateDto employee)
-        {
-            await _employeeApiConsumer.Update(_mapper.Map<Employee>(employee));
-            return new SuccessResult();
-        }
+        public async Task<IResult?> UpdateAsync(EmployeeUpdateDto employee)
+            => await _employeeApiConsumer.Update(_mapper.Map<Employee>(employee));
 
-        public async Task<IResult> DeleteAsync(int employeeId)
-        {
-            await _employeeApiConsumer.Delete(employeeId);
-            return new SuccessResult();
-        }
+        public async Task<IResult?> DeleteAsync(int employeeId)
+            => await _employeeApiConsumer.Delete(employeeId);
 
         public async Task<IDataResult<EmployeeDto>> GetAsync(int employeeId)
-            => new SuccessDataResult<EmployeeDto>(
-                _mapper.Map<EmployeeDto>(
-                    await _employeeApiConsumer.Get(employeeId)));
+            => _mapper.Map<IDataResult<EmployeeDto>>(
+                    await _employeeApiConsumer.Get(employeeId));
 
         public async Task<IDataResult<EmployeeDetailDto>> GetWithDetailsAsync(int employeeId)
-            => new SuccessDataResult<EmployeeDetailDto>(
-                _mapper.Map<EmployeeDetailDto>(
-                    await _employeeApiConsumer.GetWithDetails(employeeId)));
+            => _mapper.Map<IDataResult<EmployeeDetailDto>>(
+                    await _employeeApiConsumer.GetWithDetails(employeeId));
 
         public async Task<IDataResult<IEnumerable<EmployeeDto>>> GetAllAsync()
-            => new SuccessDataResult<IEnumerable<EmployeeDto>>(
-                _mapper.Map<IEnumerable<EmployeeDto>>(
-                    await _employeeApiConsumer.GetAll()));
+            => _mapper.Map<IDataResult<IEnumerable<EmployeeDto>>>(
+                    await _employeeApiConsumer.GetAll());
 
         public async Task<IDataResult<IEnumerable<EmployeeDetailDto>>> GetAllWithDetailsAsync()
-            => new SuccessDataResult<IEnumerable<EmployeeDetailDto>>(
-                _mapper.Map<IEnumerable<EmployeeDetailDto>>(
-                    await _employeeApiConsumer.GetAllWithDetails()));
+            => _mapper.Map<IDataResult<IEnumerable<EmployeeDetailDto>>>(
+                    await _employeeApiConsumer.GetAllWithDetails());
     }
 }

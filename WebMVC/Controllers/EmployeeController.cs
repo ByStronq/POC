@@ -22,7 +22,7 @@ namespace WebMVC.Controllers
         {
             var result = await _employeeApiService.AddAsync(employee);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -35,7 +35,7 @@ namespace WebMVC.Controllers
         {
             var result = await _employeeApiService.UpdateAsync(employee);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }
@@ -48,7 +48,7 @@ namespace WebMVC.Controllers
         {
             var result = await _employeeApiService.DeleteAsync(employeeId);
 
-            if (result.Success)
+            if (result != null && result.Success)
             {
                 return Ok(result);
             }

@@ -16,9 +16,9 @@ namespace Business.Abstract
 
     public interface IDepartmentApiService
     {
-        Task<IResult> AddAsync(DepartmentCreateDto department);
-        Task<IResult> UpdateAsync(DepartmentUpdateDto department);
-        Task<IResult> DeleteAsync(int departmentId);
+        Task<IResult?> AddAsync(DepartmentCreateDto department);
+        Task<IResult?> UpdateAsync(DepartmentUpdateDto department);
+        Task<IResult?> DeleteAsync(int departmentId);
         Task<IDataResult<DepartmentDto>> GetAsync(int departmentId);
         Task<IDataResult<DepartmentDetailDto>> GetWithDetailsAsync(int departmentId);
         Task<IDataResult<IEnumerable<DepartmentDto>>> GetAllAsync();

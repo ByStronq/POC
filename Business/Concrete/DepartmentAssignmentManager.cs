@@ -26,7 +26,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IResult> AddAsync(DepartmentAssignmentCreateDto departmentAssignment)
+        public async Task<IResult?> AddAsync(DepartmentAssignmentCreateDto departmentAssignment)
         {
             await _departmentAssignmentDal.AddAsync(_mapper.Map<DepartmentAssignment>(departmentAssignment));
             return new SuccessResult();
@@ -38,7 +38,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IResult> UpdateAsync(DepartmentAssignmentUpdateDto departmentAssignment)
+        public async Task<IResult?> UpdateAsync(DepartmentAssignmentUpdateDto departmentAssignment)
         {
             await _departmentAssignmentDal.UpdateAsync(_mapper.Map<DepartmentAssignment>(departmentAssignment));
             return new SuccessResult();
@@ -50,7 +50,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public async Task<IResult> DeleteAsync(int departmentAssignmentId)
+        public async Task<IResult?> DeleteAsync(int departmentAssignmentId)
         {
             await _departmentAssignmentDal.DeleteAsync(new DepartmentAssignment { Id = departmentAssignmentId });
             return new SuccessResult();
