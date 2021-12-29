@@ -8,6 +8,35 @@
   <div id="tree"></div>
 </div>
 
+
+<div class="modal fade" id="Department_modal" role="dialog" aria-labelledby="Department_modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="min-width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Department_modalTitle">Departman Adı</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="Department_modal-body" class="modal-body">
+                <table id="tblEmployee" class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">#Id</th>
+                      <th scope="col">Sicil No</th>
+                      <th scope="col">İsim</th>
+                      <th scope="col">Soyisim</th>
+                      <th scope="col">Oluşturma Tarihi</th>
+                      <th scope="col">Aksiyonlar</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts
 {
     <script type="text/javascript">
@@ -23,6 +52,15 @@
                 error: function (response) {
 
                 }
+            });
+
+            $('#Department_modal')
+                .on("hidden.bs.modal",
+                    function () {
+                        $('#Department_modalTitle')
+                            .text('');
+                        $('#tblEmployee tbody')
+                            .html('');
             });
         });
 
@@ -41,7 +79,7 @@
         function parseNode(node) {
             var li = document.createElement("LI");
 
-            li.innerHTML = node.name;
+            li.innerHTML = `<a href="javascript: OpenDepartmentDetailsModal(${node.id});">${node.name}</a>`;
 
             if(!renderedTreeItemIds.find(x => x == node.id)
                 && node.subDepartments)
@@ -79,11 +117,10 @@
             });
         }
 
-        function DeleteDepartmentAssignment(data) {
+        function DeleteDepartmentAssignment(departmentAssignmentId) {
             $.ajax({
                 type: 'DELETE',
-                url: "https://localhost:7236/department/assignment",
-                data,
+                url: `https://localhost:7236/department/assignment/${departmentAssignmentId}`,
                 success: function (response) {
 
                 },
@@ -91,6 +128,30 @@
 
                 }
             });
+        }
+
+        function OpenDepartmentDetailsModal(departmentId) {
+            let department = allDepartmentsWithDetails
+                .find(department => department.id == departmentId);
+
+            $('#Department_modalTitle').text(department.name);
+
+            department.assignments.map(assignment => {
+                $('#tblEmployee tbody').append(`
+                    <tr>
+                        <th scope="row">${assignment.employee.id}</th>
+                        <td>${assignment.employee.registrationNumber}</td>
+                        <td>${assignment.employee.name}</td>
+                        <td>${assignment.employee.surname}</td>
+                        <td>${assignment.employee.createdTime}</td>
+                        <td><button type="button" class="btn btn-danger"
+                             onClick="javascript: DeleteDepartmentAssignment(${assignment.id});"
+                        >Sil</button></td>
+                    </tr>
+                `);
+            });
+
+            $('#Department_modal').modal("show");
         }
     </script>
 }
