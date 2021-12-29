@@ -8,7 +8,7 @@
   <div id="tree"></div>
 </div>
 
-<div class="modal fade" id="Department_modal" role="dialog" aria-labelledby="Department_modalTitle" aria-hidden="true">
+<div class="modal fade" id="Department_modal" role="dialog" aria-labelledby="Department_modalTitle" aria-hidden="true" data-department-id="0">
     <div class="modal-dialog modal-dialog-centered" role="document" style="min-width:80%;">
         <div class="modal-content">
             <div class="modal-header">
@@ -31,6 +31,26 @@
                   </thead>
                   <tbody></tbody>
                 </table>
+                <form>
+                  <div class="form-row">
+                    <div class="col">
+                      <input
+                        id="EmployeeId"
+                        type="number"
+                        class="form-control"
+                        placeholder="Çalışan Id ile ekle"
+                      >
+                    </div>
+                    <div class="col">
+                      <button
+                        id="btnDepartmentAssignment"
+                        type="button"
+                        class="btn btn-primary"
+                        onClick="javascript: PostDepartmentAssignment();"
+                      >Ekle</button>
+                    </div>
+                  </div>
+                </form>
             </div>
         </div>
     </div>
@@ -60,6 +80,8 @@
                             .text('');
                         $('#tblEmployee tbody')
                             .html('');
+                        $('#Department_modal')
+                            .data('department-id', 0);
             });
         });
 
@@ -103,12 +125,15 @@
             });
         }
 
-        function PostDepartmentAssignment(data) {
+        function PostDepartmentAssignment() {
             $.post({
                 url: "https://localhost:7236/department/assignment",
-                data,
+                data: {
+                    DepartmentId: $('#Department_modal').data('department-id'),
+                    EmployeeId: $('#EmployeeId').val()
+                },
                 success: function (response) {
-
+                    $('#Department_modal').modal("hide");
                 },
                 error: function (response) {
 
@@ -132,6 +157,8 @@
         function OpenDepartmentDetailsModal(departmentId) {
             let department = allDepartmentsWithDetails
                 .find(department => department.id == departmentId);
+            
+            $('#Department_modal').data('department-id', departmentId);
 
             $('#Department_modalTitle').text(department.name);
 
