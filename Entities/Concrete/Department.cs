@@ -1,6 +1,5 @@
 ﻿using Core.Entities;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Entities.Concrete
 {
