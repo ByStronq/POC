@@ -5,7 +5,7 @@ namespace Business.Extensions
 {
     public static class DataTableExtensions
     {
-        public static DatatablesModel.DataTablesResponseParameter<TEntity> List<TEntity>(this DatatablesModel.DataTablesRequestParameter dataTablesRequestParameter, IQueryable<TEntity> queryable)
+        public static DatatablesModel.DataTablesResponseParameter<TEntity> List<TEntity>(this DatatablesModel.DataTablesRequestParameter dataTablesRequestParameter, IEnumerable<TEntity> enumerable)
             where TEntity : class, IEntity, new()
         {
             DatatablesModel.DataTablesResponseParameter<TEntity> dataTablesResponseParameter = new DatatablesModel.DataTablesResponseParameter<TEntity>();
@@ -20,7 +20,7 @@ namespace Business.Extensions
                     string value = ColumnItem.search.value;
 
                     if (!String.IsNullOrWhiteSpace(value))
-                        queryable = queryable.Where(data, value, isEquality);
+                        enumerable = enumerable.Where(data, value, isEquality);
                 }
 
                 string[] orderQueryArray = dataTablesRequestParameter.SortOrder.Split(' ');
@@ -28,15 +28,15 @@ namespace Business.Extensions
                 bool isDesc = orderQueryArray.Length >= 2 && orderQueryArray[1] == "DESC" ? true : false;
 
                 if (!String.IsNullOrWhiteSpace(orderPropertyName))
-                    queryable = queryable.OrderBy(x => 0)
+                    enumerable = enumerable.OrderBy(x => 0)
                         .OrderBy(orderPropertyName, isDesc, isThenBy: true);
-                else queryable = queryable.OrderBy(x => 0);
+                else enumerable = enumerable.OrderBy(x => 0);
 
-                List<TEntity> SearchEntityList = queryable.Skip(dataTablesRequestParameter.start).Take(dataTablesRequestParameter.length).ToList();
+                List<TEntity> SearchEntityList = enumerable.Skip(dataTablesRequestParameter.start).Take(dataTablesRequestParameter.length).ToList();
 
                 dataTablesResponseParameter.draw = dataTablesRequestParameter.draw;
 
-                dataTablesResponseParameter.recordsTotal = queryable.Count();
+                dataTablesResponseParameter.recordsTotal = enumerable.Count();
                 dataTablesResponseParameter.recordsFiltered = dataTablesResponseParameter.recordsTotal;
 
                 dataTablesResponseParameter.data = SearchEntityList;

@@ -5,8 +5,8 @@ namespace Business.Extensions
 {
     public static class EfExtensions
     {
-        public static IOrderedQueryable<TSource> OrderBy<TSource>(
-         this IQueryable<TSource> query, string propertyName, bool isDesc = false, bool isThenBy = false)
+        public static IOrderedEnumerable<TSource> OrderBy<TSource>(
+         this IEnumerable<TSource> query, string propertyName, bool isDesc = false, bool isThenBy = false)
         {
             string orderByMethodName = $"{(isThenBy ? "Then" : "Order")}By{(isDesc ? "Descending" : null)}";
 
@@ -19,7 +19,7 @@ namespace Business.Extensions
 
             LambdaExpression selector = Expression.Lambda(property, new ParameterExpression[] { arg });
 
-            Type enumarableType = typeof(Queryable);
+            Type enumarableType = typeof(Enumerable);
             MethodInfo method = enumarableType.GetMethods()
                  .Where(m => m.Name == orderByMethodName && m.IsGenericMethodDefinition)
                  .Where(m =>
@@ -31,13 +31,13 @@ namespace Business.Extensions
             MethodInfo genericMethod = method
                  .MakeGenericMethod(entityType, propertyInfo.PropertyType);
 
-            var newQuery = (IOrderedQueryable<TSource>) genericMethod
+            var newQuery = (IOrderedEnumerable<TSource>) genericMethod
                  .Invoke(genericMethod, new object[] { query, selector });
             return newQuery;
         }
 
-        public static IOrderedQueryable<TSource> Where<TSource>(
-         this IQueryable<TSource> query, string propertyName, string propertyValue, bool isEquality = false)
+        public static IOrderedEnumerable<TSource> Where<TSource>(
+         this IEnumerable<TSource> query, string propertyName, string propertyValue, bool isEquality = false)
         {
             Type entityType = typeof(TSource);
 
@@ -54,7 +54,7 @@ namespace Business.Extensions
 
             LambdaExpression selector = Expression.Lambda(containsMethodExp, arg);
 
-            Type enumarableType = typeof(Queryable);
+            Type enumarableType = typeof(Enumerable);
             MethodInfo method = enumarableType.GetMethods()
                  .Where(m => m.Name == "Where" && m.IsGenericMethodDefinition)
                  .Where(m =>
@@ -66,7 +66,7 @@ namespace Business.Extensions
             MethodInfo genericMethod = method
                  .MakeGenericMethod(entityType);
 
-            var newQuery = (IOrderedQueryable<TSource>) genericMethod
+            var newQuery = (IOrderedEnumerable<TSource>) genericMethod
                  .Invoke(genericMethod, new object[] { query, selector });
             return newQuery;
         }
