@@ -120,7 +120,7 @@
         function parseNode(node) {
             var li = document.createElement("LI");
 
-            li.innerHTML = `<a href="javascript: OpenDepartmentDetailsModal(${node.id});">${node.name}</a>`;
+            li.innerHTML = `<a href="javascript: OpenDepartmentDetailsModal(${node.id});">${node.name} (${node.assignments.length} kişi)</a>`;
 
             if(!renderedTreeItemIds.find(x => x == node.id)
                 && node.subDepartments)
