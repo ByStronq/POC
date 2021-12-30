@@ -12,7 +12,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document" style="min-width:80%;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="Department_modalTitle">Departman Adı</h5>
+                <h5 class="modal-title" id="Department_modalTitle"><input id="DepartmentName" type="text" class="form-control" placeholder="Departman Adı" /></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -39,7 +39,7 @@
                         type="number"
                         class="form-control"
                         placeholder="Çalışan Id ile ekle"
-                      >
+                      />
                     </div>
                     <div class="col">
                       <button
@@ -61,6 +61,14 @@
     <script type="text/javascript">
         let allDepartmentsWithDetails = [], renderedTreeItemIds = [];
 
+        var functionDelay = (function () {
+            var timer = 0;
+            return function (callback, ms) {
+                clearTimeout(timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
+
         $(document).ready(function () {
             $.get({
                 url: "https://localhost:7236/department/allwithdetails",
@@ -76,12 +84,24 @@
             $('#Department_modal')
                 .on("hidden.bs.modal",
                     function () {
-                        $('#Department_modalTitle')
-                            .text('');
+                        $('#DepartmentName')
+                            .attr('placeholder', null);
+                        $('#DepartmentName')
+                            .val('');
                         $('#tblEmployee tbody')
                             .html('');
                         $('#Department_modal')
                             .data('department-id', 0);
+            });
+
+            $($('#DepartmentName')).on('keyup change', function () {
+                let tempThis = $(this);
+                functionDelay(function () {
+                    PutDepartment({
+                        id: $('#Department_modal').data('department-id'),
+                        name: tempThis.val()
+                    });
+                }, 500);
             });
         });
 
@@ -117,7 +137,11 @@
                 url: "https://localhost:7236/department",
                 data,
                 success: function (response) {
+                    allDepartmentsWithDetails
+                        .find(department => department.id == data.id)
+                    .name = data.name;
 
+                    $('#Department_modal').modal("hide");
                 },
                 error: function (response) {
 
@@ -160,7 +184,7 @@
             
             $('#Department_modal').data('department-id', departmentId);
 
-            $('#Department_modalTitle').text(department.name);
+            $('#DepartmentName').attr('placeholder', department.name);
 
             department.assignments.map(assignment => {
                 $('#tblEmployee tbody').append(`
